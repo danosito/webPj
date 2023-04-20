@@ -22,6 +22,7 @@ configure_uploads(app, photos)
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST' and 'photo' in request.files:
+        print(request.files)
         filename = photos.save(request.files['photo'])
         return 'Файл успешно загружен: {}'.format(filename)
     return render_template('upload.html')

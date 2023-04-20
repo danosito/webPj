@@ -54,7 +54,10 @@
             </p>
         {% endfor %}
     </p>
-    <input type="file" name="photo">
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="photo">
+      <input type="submit" value="Загрузить">
+    </form>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 
