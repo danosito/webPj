@@ -18,7 +18,7 @@ from flask import session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -28,6 +28,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
+    print(email, password, remember_me)
 
 @app.route('/logout')
 @login_required
@@ -37,7 +38,7 @@ def logout():
 
 @app.route("/")
 def index():
-    pass
+    return "hi"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,6 +49,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
+        print()
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
@@ -105,7 +107,7 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 def main():
-    db_session.global_init("")
+    db_session.global_init("for_users.db")
     app.run()
 
 
