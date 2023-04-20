@@ -17,8 +17,12 @@ from flask import make_response
 from flask import session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import sqlite3
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 app = Flask(__name__, static_folder="static")
+photos = UploadSet('photos', IMAGES)
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
+configure_uploads(app, photos)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
