@@ -42,7 +42,11 @@ def logout():
 
 @app.route("/")
 def index():
-    return "hi"
+    return render_template("main.html")
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -98,9 +102,7 @@ def upload():
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
-    print(request.files)
-    if form.validate_on_submit() and request.method == 'POST' and 'photo' in request.files:
-        print(request.files)
+    if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
                                    form=form,
@@ -110,13 +112,12 @@ def reqister():
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
-        filename = photos.save(request.files['photo'], name=str(int(open("lastsaved.txt").read()) + 1) + ".jpg")
-        open("lastsaved.txt", "w").write(str(int(open("lastsaved.txt").read()) + 1))
+        #filename = photos.save(request.files['photo'], name=str(int(open("lastsaved.txt").read()) + 1) + ".jpg")
+        #open("lastsaved.txt", "w").write(str(int(open("lastsaved.txt").read()) + 1))
         user = User(
             name=form.name.data,
             email=form.email.data,
-            about=form.about.data,
-            avatar_path=filename
+            about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
