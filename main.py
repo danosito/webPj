@@ -42,7 +42,8 @@ def logout():
 
 @app.route("/")
 def index():
-    return render_template("main.html")
+    lessons = ["знакомство с питон", "условн0", "циклы", "пере", "for"]
+    return render_template("main.html", lessons=lessons)
 
 @app.route("/profile")
 def profile():

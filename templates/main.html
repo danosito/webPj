@@ -24,7 +24,11 @@
           </ul>
         </nav>
       </div>
-      <h1>{{}}</h1>
+      {% for lesson in lessons %}
+      <a rel="stylesheet" href="/lessons/{{loop.index}}">
+        <h2>{{lesson}}</h2>
+      </a>
+      {% endfor %}
     </div>
   </body>
 </html>
