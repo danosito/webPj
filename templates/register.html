@@ -54,17 +54,10 @@
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.avatar.label }}<br>
-        {{ form.avatar(class="form-control") }}<br>
-        {% for error in form.avatar.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
+    <input type="file" name="photo">
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
+
 </form>
   </body>
 </html>
