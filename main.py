@@ -93,8 +93,8 @@ def cookie_test():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     form = RegisterForm()
-    print(request.files)
-    if 'photo' in request.files:
+    if request.method == 'POST' and 'photo' in request.files:
+        print(request.files)
         filename = photos.save(request.files['photo'])
         return 'Файл успешно загружен: {}'.format(filename)
     return render_template('register.html', form=form)
@@ -103,26 +103,30 @@ def upload():
 def reqister():
     form = RegisterForm()
     if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
-        db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Такой пользователь уже есть")
-        #filename = photos.save(request.files['photo'], name=str(int(open("lastsaved.txt").read()) + 1) + ".jpg")
-        #open("lastsaved.txt", "w").write(str(int(open("lastsaved.txt").read()) + 1))
-        user = User(
-            name=form.name.data,
-            email=form.email.data,
-            about=form.about.data
-        )
-        user.set_password(form.password.data)
-        db_sess.add(user)
-        db_sess.commit()
-        return redirect('/login')
+        if request.method == 'POST' and 'photo' in request.files:
+            if form.password.data != form.password_again.data:
+                return render_template('register.html', title='Регистрация',
+                                       form=form,
+                                       message="Пароли не совпадают")
+            db_sess = db_session.create_session()
+            if db_sess.query(User).filter(User.email == form.email.data).first():
+                return render_template('register.html', title='Регистрация',
+                                       form=form,
+                                       message="Такой пользователь уже есть")
+            filename = photos.save(request.files['photo'], name=str(int(open("lastsaved.txt").read()) + 1) + ".jpg")
+            t = str(int(open("lastsaved.txt").read()) + 1)
+            open("lastsaved.txt", "w").write(t)
+            user = User(
+                name=form.name.data,
+                email=form.email.data,
+                about=form.about.data,
+                avatar_path=filename
+            )
+            user.set_password(form.password.data)
+            db_sess.add(user)
+            db_sess.commit()
+            return redirect('/login')
+        return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")
     return render_template('register.html', title='Регистрация', form=form)
 
 def main():

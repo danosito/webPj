@@ -1,6 +1,11 @@
-from flask import request, render_template
+from flask import Flask, abort
+from flask_wtf import FlaskForm
+from wtforms import EmailField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
+
+from data import db_session
+from data.users import User
 import datetime
-import flask
 from flask import request
 from data.news import News
 from flask import render_template
@@ -14,10 +19,13 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 import sqlite3
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 
-app = flask.Flask(__name__, static_folder="static")
+app = Flask(__name__, static_folder="static")
 photos = UploadSet('photos', IMAGES)
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
 configure_uploads(app, photos)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
