@@ -6,18 +6,20 @@
     <title>Авторизация | Лицей Академии Яндекса</title>
   </head>
   <body>
-    <h1>Авторизация</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.email.label }}<br>
+    <section>
+        <div class="form-box">
+            <div class="form-value"><h1>Авторизация</h1>
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+            <div class="inputbox">
+          <p>{{ form.email.label }}<br>
             {{ form.email(class="form-control", type="email") }}<br>
             {% for error in form.email.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
-            {% endfor %}
-        </p>
+            {% endfor %}</p>
+              </div>
         <p>
             {{ form.password.label }}<br>
             {{ form.password(class="form-control", type="password") }}<br>
@@ -30,6 +32,17 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
-    </form>
+      </form>
+      </div>
+      </div>
+    </section>
+      <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
