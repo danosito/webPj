@@ -21,6 +21,7 @@ class User(SqlAlchemyBase, UserMixin):
                                      default=datetime.datetime.now)
 
     news = orm.relationship("News", back_populates='user')
+    avatar_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def set_password(self, password):
         self.hashed_password = werkzeug.security.generate_password_hash(password)
