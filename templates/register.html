@@ -6,7 +6,7 @@
     <title>Авторизация | Лицей Академии Яндекса</title>
   </head>
   <body>
-<h1>Регистрация</h1>
+  <section><h2>Регистрация</h2>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -54,13 +54,15 @@
             </p>
         {% endfor %}
     </p>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="photo">
-      <input type="submit" value="Загрузить">
-    </form>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    {{message}}
-
-</form>
+    {{message}}</form></section>
+  <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
