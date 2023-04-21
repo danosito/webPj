@@ -42,7 +42,8 @@ def logout():
 
 @app.route("/")
 def index():
-    lessons = ["знакомство с питон", "условн0", "циклы", "пере", "for"]
+    lessons = ["знакомство с циклом for", "знакомство с циклом while", "простые встроенные функции",
+               "условный оператор", "знакомство со средой"]
     return render_template("main.html", lessons=lessons)
 
 @app.route("/profile")
