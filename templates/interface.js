@@ -1,25 +1,32 @@
-// Get the modal
-var modal = document.getElementById("myModal");
+var btn = document.getElementById("theme");
+var link = document.getElementById("theme-link");
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+btn.addEventListener("click", function () {
+  ChangeTheme();
+});
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+function ChangeTheme() {
+  let lightTheme = "../static/css/light.css";
+  let darkTheme = "../static/css/dark.css";
 
-// When the user clicks the button, open the modal
-btn.onclick = function () {
-  modal.style.display = "block";
-};
+  var currTheme = link.getAttribute("href");
+  var theme = "";
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (currTheme == lightTheme) {
+    currTheme = darkTheme;
+    theme = "dark";
+  } else {
+    currTheme = lightTheme;
+    theme = "light";
   }
-};
+
+  function Save(theme) {
+    var Request = new XMLHttpRequest();
+    Request.open("GET", "themes.php?theme=" + theme, true); //У вас путь может отличаться
+    Request.send();
+  }
+
+  link.setAttribute("href", currTheme);
+
+  Save(theme);
+}

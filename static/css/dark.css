@@ -1,0 +1,36 @@
+body {
+  background: #111;
+}
+
+#header_bottom {
+  background: #444;
+}
+
+.course_nav {
+  color: #f4f4f4;
+}
+
+.course_nav:hover {
+  background: #9a9a9a;
+}
+
+.profile_name {
+  color: #f4f4f4;
+}
+
+.btn_for_lesson {
+  background: #111;
+  color: #f4f4f4;
+  border: 0.05em solid rgb(235, 235, 235);
+}
+
+.normal_text {
+  color: #f4f4f4;
+}
+
+.theme {
+  background-image: url("../sun.png");
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}

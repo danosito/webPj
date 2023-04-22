@@ -8,8 +8,8 @@ body {
   padding: 0;
 }
 
-#header_bottom {
-  background: rgb(20, 20, 20);
+.no_margin {
+  margin-top: 0;
 }
 
 #menu li {
@@ -18,7 +18,6 @@ body {
 }
 
 .course_nav {
-  color: white;
   display: block;
   padding: 5px 15px;
   font-size: clamp(1rem, 3vw, 3rem);
@@ -26,12 +25,7 @@ body {
   text-decoration: none;
 }
 
-.course_nav:hover {
-  background: #606769;
-}
-
 .profile_name {
-  color: white;
   padding: 5px 5px;
   font-size: clamp(1rem, 1.5vw, 2rem);
   font-family: "Ibarra Real Nova", serif;
@@ -70,3 +64,33 @@ body {
   margin-top: 5em;
 }
 
+.lesson_btns {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 15px;
+  margin-right: 40vw;
+}
+
+.btn_for_lesson {
+  width: 100%;
+  height: 13vh;
+  font-size: clamp(1rem, 3vw, 3rem);
+  font-family: "Ibarra Real Nova", serif;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 5vw;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.info_and_theme {
+  display: flex;
+  flex-direction: row;
+}
+
+.theme {
+  margin-left: 57vw;
+}

@@ -5,13 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/menu.css" />
+    <link rel="stylesheet" href="../static/css/light.css" id="theme-link"/>
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/<?php echo $_SESSION["theme"]; ?>.css" id="theme-link"> -->
     <title>Обзор курса</title>
   </head>
   <body>
+  <!--<?php
+    session_start();
+
+    if(!isset($_SESSION["theme"]))
+    {
+        $_SESSION["theme"] = "light";
+    }
+    ?>-->
     <div id="menu">
       <div id="header_bottom">
         <nav>
-          <ul>
+          <ul class="no_margin">
             <li>
               <a class="course_nav" href="#">Обзор курса</a>
             </li>
@@ -24,11 +34,47 @@
           </ul>
         </nav>
       </div>
-      {% for lesson in lessons %}
-      <a rel="stylesheet" href="/lessons/{{loop.index}}">
-        <h2>{{lesson}}</h2>
-      </a>
-      {% endfor %}
+      <div class="info_and_theme">
+        <h1 class="normal_text">Основы программирования на языке Python</h1>
+        <div class="theme" id="theme"></div>
+      </div>
+
+      <div class="lesson_btns">
+        {% for lesson in lessons %}
+        <button type="submit" onclick="location.href='/lessons/{{loop.index}}'" class="btn_for_lesson">
+          {{lesson}}
+        </button>
+        {% endfor %}
+      </div>
+
     </div>
+  <script>
+    var btn = document.getElementById("theme");
+var link = document.getElementById("theme-link");
+
+btn.addEventListener("click", function () {
+  ChangeTheme();
+});
+
+function ChangeTheme() {
+  let lightTheme = "../static/css/light.css";
+  let darkTheme = "../static/css/dark.css";
+
+  var currTheme = link.getAttribute("href");
+  var theme = "";
+
+  if (currTheme == lightTheme) {
+    currTheme = darkTheme;
+    theme = "dark";
+  } else {
+    currTheme = lightTheme;
+    theme = "light";
+  }
+
+  link.setAttribute("href", currTheme);
+
+  Save(theme);
+}
+  </script>
   </body>
 </html>

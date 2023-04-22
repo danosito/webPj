@@ -1,0 +1,36 @@
+body {
+  background: #f4f4f4;
+}
+
+#header_bottom {
+  background: #111;
+}
+
+.course_nav {
+  color: #f4f4f4;
+}
+
+.course_nav:hover {
+  background: #606769;
+}
+
+.profile_name {
+  color: #f4f4f4;
+}
+
+.btn_for_lesson {
+  background: white;
+  color: #111;
+  border: 0.05em solid rgb(20, 20, 20);
+}
+
+.normal_text {
+  color: #111;
+}
+
+.theme {
+  background-image: url("../moon.png");
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
