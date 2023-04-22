@@ -16,6 +16,7 @@ body {
 
 .profile_name {
   color: #f4f4f4;
+  background: #111;
 }
 
 .btn_for_lesson {
@@ -33,4 +34,38 @@ body {
   width: 60px;
   height: 60px;
   cursor: pointer;
+}
+
+.headings {
+  color: #f4f4f4;
+}
+
+.tasks_heading {
+  background: #111;
+  color: #f4f4f4;
+  border: 0.05em solid rgb(235, 235, 235);
+}
+
+.tasks_heading:hover {
+  cursor: default;
+}
+
+.tasks {
+  background: #111;
+  color: #f4f4f4;
+  border: 0.05em solid rgb(235, 235, 235);
+}
+
+.points {
+  background: #111;
+  color: #f4f4f4;
+}
+
+.dropdown-content {
+  background-color: #111;
+  box-shadow: 0px 8px 16px 0px rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-content p {
+  color: #f4f4f4;
 }

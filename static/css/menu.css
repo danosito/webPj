@@ -26,12 +26,12 @@ body {
 }
 
 .profile_name {
-  padding: 5px 5px;
   font-size: clamp(1rem, 1.5vw, 2rem);
   font-family: "Ibarra Real Nova", serif;
   text-decoration: none;
-
-  float: right;
+  padding: 16px;
+  border: none;
+  margin-left: 20vw;
 }
 
 #data {
@@ -66,13 +66,12 @@ body {
 
 .lesson_btns {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding: 5px 15px;
-  margin-right: 40vw;
 }
 
 .btn_for_lesson {
-  width: 100%;
+  width: 60vw;
   height: 13vh;
   font-size: clamp(1rem, 3vw, 3rem);
   font-family: "Ibarra Real Nova", serif;
@@ -91,6 +90,66 @@ body {
   flex-direction: row;
 }
 
+.headings {
+  width: 35vw;
+  margin-left: 5vw;
+  padding: 10px 20px;
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  font-family: "Ibarra Real Nova", serif;
+  text-decoration: none;
+}
+
 .theme {
-  margin-left: 57vw;
+  margin-left: 52vw;
+}
+
+#under_info {
+  display: flex;
+  flex-direction: row;
+}
+
+.for_menu {
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+
+  min-width: 160px;
+
+  z-index: 1;
+  text-align: right;
+  margin-left: 15vw;
+}
+
+.dropdown-content p {
+  padding: 6px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.leave_btn {
+  width: 200px;
+  height: 40px;
+  border-radius: 20%;
+  background: yellow;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.profile_name:hover {
+  cursor: pointer;
 }
