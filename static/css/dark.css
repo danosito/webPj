@@ -69,3 +69,17 @@ body {
 .dropdown-content p {
   color: #f4f4f4;
 }
+
+.task_text {
+  color: #f4f4f4;
+}
+
+textarea {
+  border-color: #f4f4f4;
+  background: #111;
+  color: #f4f4f4;
+}
+
+.task_info {
+  border-color: #f4f4f4;
+}

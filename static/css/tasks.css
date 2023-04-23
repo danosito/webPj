@@ -1,5 +1,44 @@
 textarea {
-  width: 90%;
-  height: 500px;
+  width: 40vw;
+  height: 65vh;
   resize: none;
+}
+
+.task_text {
+  width: 40vw;
+  margin-left: 7vh;
+  padding: 10px 20px;
+  font-size: clamp(0.7rem, 1vw, 1.5rem);
+  font-family: "Ibarra Real Nova", serif;
+}
+
+.task_input {
+  display: flex;
+  flex-direction: column;
+  margin-left: 7vh;
+}
+
+.task_output {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+  margin-right: 7vw;
+}
+
+.send_btn {
+  border-radius: 0;
+  border: none;
+  background: yellow;
+  width: 15vw;
+  height: 5vh;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.task_info {
+  width: 15vw;
+  border: 0.05em solid;
+  height: 60vh;
+  margin-top: 0;
+  padding: 0;
 }

@@ -29,15 +29,20 @@
         <div class="theme" id="theme"></div>
       </div>
     </div>
+    <p class="task_text">
+      Напишите программу, которая выводит «Привет, Яндекс!» (без кавычек) и
+      больше ничего не делает.
+    </p>
     <div id="under_info">
       <div class="task_input">
-        <p>
-          Напишите программу, которая выводит «Привет, Яндекс!» (без кавычек) и
-          больше ничего не делает.
-        </p>
         <textarea name="comment"></textarea>
       </div>
-      <div class="task_output"></div>
+      <div class="task_output">
+        <form action="" method="post">
+          <button class="send_btn">Отправить решение</button>
+        </form>
+        <output class="task_info"></output>
+      </div>
       <div class="for_menu">
         <div class="dropdown">
           <button
@@ -55,7 +60,7 @@
             <p>
               <button
                 type="submit"
-                onclick="location.href='leave'"
+                onclick="location.href='logout'"
                 class="leave_btn"
               >
                 Выйти
