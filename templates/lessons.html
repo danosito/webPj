@@ -20,9 +20,6 @@
             <li>
               <a class="course_nav" href="#">О нас</a>
             </li>
-            <a href="profile">
-              <span class="profile_name">Даниил Аникин</span>
-            </a>
           </ul>
         </nav>
       </div>
@@ -30,28 +27,56 @@
         <h1 class="headings">Знакомство со средой</h1>
         <div class="theme" id="theme"></div>
       </div>
-      <div class="lesson_tasks">
-        <button class="tasks_heading">Задачи</button>
-        <button class="tasks">
-          Задача1
-          <div class="point">Зачёт</div>
-        </button>
-        <button class="tasks">
-          Задача2
-          <div class="point">Зачёт</div>
-        </button>
-        <button class="tasks">
-          Задача3
-          <div class="point">Зачёт</div>
-        </button>
-        <button class="tasks">
-          Задача4
-          <div class="point">Зачёт</div>
-        </button>
-        <button class="tasks">
-          Задача5
-          <div class="point">Зачёт</div>
-        </button>
+      <div id="under_info">
+        <div class="lesson_tasks">
+          <button class="tasks_heading">Задачи</button>
+          <button class="tasks">
+            Задача1
+            <div class="point">Зачёт</div>
+          </button>
+          <button class="tasks">
+            Задача2
+            <div class="point">Зачёт</div>
+          </button>
+          <button class="tasks">
+            Задача3
+            <div class="point">Зачёт</div>
+          </button>
+          <button class="tasks">
+            Задача4
+            <div class="point">Зачёт</div>
+          </button>
+          <button class="tasks">
+            Задача5
+            <div class="point">Зачёт</div>
+          </button>
+        </div>
+        <div class="for_menu">
+          <div class="dropdown">
+            <button
+              type="submit"
+              onclick="location.href='profile'"
+              class="profile_name"
+            >
+              Даниил Аникин
+            </button>
+            <div class="dropdown-content">
+              <p>Имя: Даниил Аникин</p>
+              <p>Почта: anikindaniel2007@gmail.com</p>
+              <p>Уроков пройдено:5</p>
+              <p>Учитель: Алексей Сигида</p>
+              <p>
+                <button
+                  type="submit"
+                  onclick="location.href='leave'"
+                  class="leave_btn"
+                >
+                  Выйти
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script>
