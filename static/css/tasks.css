@@ -2,11 +2,12 @@ textarea {
   width: 40vw;
   height: 65vh;
   resize: none;
+  margin-left: 5vw;
 }
 
 .task_text {
   width: 40vw;
-  margin-left: 7vh;
+  margin-left: 5vw;
   padding: 10px 20px;
   font-size: clamp(0.7rem, 1vw, 1.5rem);
   font-family: "Ibarra Real Nova", serif;
