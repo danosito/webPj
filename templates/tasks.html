@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/menu.css" />
     <link rel="stylesheet" href="/static/css/tasks.css" />
     <link rel="stylesheet" href="/static/css/light.css" id="theme-link" />
-    <title>Задача1 | Урок1</title>
+    <title>Задача {{task_num}} | Урок {{lesson_num}}</title>
   </head>
   <body>
     <div id="menu">
@@ -34,7 +34,7 @@
     </p>
     <div class="under_info">
       <form method="post" class="under_info">
-        <textarea name="comment"></textarea>
+        <textarea name="comment">темт</textarea>
       <div class="task_output">
         <input type="submit" value="Отправить решение" class="send_btn">
         <output class="task_info">{{taskhistory}}</output>

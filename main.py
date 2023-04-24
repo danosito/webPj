@@ -9,10 +9,8 @@ from data import db_session
 from data.users import User
 import datetime
 from flask import request
-from data.news import News
+from data.works import Works
 from flask import render_template
-
-from forms.news import NewsForm
 from forms.users import RegisterForm
 from flask import redirect
 from flask import make_response
@@ -23,6 +21,7 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from PIL import Image
 from test import test
 import traceback
+import sqlite3
 
 app = Flask(__name__, static_folder="static")
 photos = UploadSet('photos', IMAGES)
@@ -36,6 +35,7 @@ lessons = ["Знакомство со средой", "Условный опер�
                "Знакомство с циклом while", "Знакомство с циклом for"]
 tasks = [["вывести \"hello yandex\" без кавычек", "вывести сумму 2 и 2", "сложить переменные a = 10 и b = 20"], ["получить на вход два числа. вывести меньшее. не использовать min", "добавить в предыдущую программу начальный ввод, и если пользователь введет +, то вывести самое большое число, а если -, то самое маленькое"], ["получите сумму 2 и 2 с помощью sum", "найдите модуль -5 * -5 ** 2 + -6", "сделайте простейший калькулятор с помощью eval"], ["получить на вход пять чисел. вывести их сумму", "получать на вход числа, пока не придет 0. когда придет 0, вывести самое маленькое и самое большое число.", "усложните предыдущую задачу: если приходит отрицательное число, то берите его квадрат."], ["напишите функцию факториала. вам дается число, выведите его факториал", "напишите функцию, которая перебирает числа от 1до n, и находит среднее. n вводится"]]
 tests = [[["hello yandex\r\n"], ["4\r\n"], ["30\r\n"]], [[b"-3\n", b"5\n", "-3\r\n"], [b"+\n",b"-3\n", b"5\n", "5\r\n"]], [["4\r\n"], ["119\r\n"], [b"5*3\n", "15\r\n"]], [[b"1\n", b"2\n", b"3\n", b"4\n", b"5\n", "15\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "4\r\n-5\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "25\r\n1\r\n"]], [[b"5\n", "120\r\n"], [b"7\n", "4\r\n"]]]
+first_db_enter = [["0", "0", "0"], ["0", "0"], ["0", "0", "0"], ["0", "0", "0"], ["0", "0"]]
 
 
 class LoginForm(FlaskForm):
@@ -80,11 +80,11 @@ def open_task(lesson_num, task_num):
             text = "тест пройден" if n[0] == n[1] else "тест не пройден: ввод программы - " + str(n[2]) + " правильный вывод - " + str(n[0]) + " ваш вывод: " + str(n[1])
         except BaseException:
             text = "ошибка! " + traceback.format_exc()
-        return render_template("tasks.html", taskhistory=text, num_tusk=task_num,
+        return render_template("tasks.html", taskhistory=text, num_tusk=task_num, lesson_num=lesson_num, task_num=task_num,
                                task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
                                mail=current_user.email, balls=0,
                                desc=current_user.about, avatar=current_user.avatar_path)
-    return render_template("tasks.html", taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
+    return render_template("tasks.html", task_num=task_num, lesson_num=lesson_num, taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
                            mail=current_user.email, balls=0,
                            desc=current_user.about, avatar=current_user.avatar_path)
 @app.route("/profile")
@@ -109,6 +109,10 @@ def login():
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
 
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -140,18 +144,21 @@ def reqister():
                             (0, (img.size[1] - 400) // 2, 400,
                             (img.size[1] - 400) // 2 + 400))
             name = str(int(open("lastsaved.txt").read()) + 1)
-            img.save(f"static/img/{name}.jpg")
+            img.save(f"static/img/{name}.png")
             open("lastsaved.txt", "w").write(name)
             os.remove("static/img/" + filename)
             user = User(
                 name=form.name.data,
                 email=form.email.data,
                 about=form.about.data,
-                avatar_path=name + ".jpg"
+                avatar_path=name + ".png"
             )
             user.set_password(form.password.data)
             db_sess.add(user)
             db_sess.commit()
+            con = sqlite3.connect("for_users.db")
+            cur = con.cursor()
+            cur.execute(f"INSERT INTO works (id, content), {}")
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")
     return render_template('register.html', title='Регистрация', form=form)
