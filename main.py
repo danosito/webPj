@@ -110,6 +110,10 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -140,14 +144,14 @@ def reqister():
                             (0, (img.size[1] - 400) // 2, 400,
                             (img.size[1] - 400) // 2 + 400))
             name = str(int(open("lastsaved.txt").read()) + 1)
-            img.save(f"static/img/{name}.jpg")
+            img.save(f"static/img/{name}.png")
             open("lastsaved.txt", "w").write(name)
             os.remove("static/img/" + filename)
             user = User(
                 name=form.name.data,
                 email=form.email.data,
                 about=form.about.data,
-                avatar_path=name + ".jpg"
+                avatar_path=name + ".png"
             )
             user.set_password(form.password.data)
             db_sess.add(user)
