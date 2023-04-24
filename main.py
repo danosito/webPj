@@ -78,6 +78,11 @@ def open_task(lesson_num, task_num):
         try:
             n = test(tests[lesson_num - 1][task_num - 1])
             text = "тест пройден" if n[0] == n[1] else "тест не пройден: ввод программы - " + str(n[2]) + " правильный вывод - " + str(n[0]) + " ваш вывод: " + str(n[1])
+            con = sqlite3.connect("for_users.db")
+            cur = con.cursor()
+            n = cur.execute(f"SELECT content from works where id={current_user.id}").fetchall()[0][0]
+            n[lesson_num - 1][task_num - 1] = request.values['comment'] + "1" if n[0] == n[1] else "0"
+
         except BaseException:
             text = "ошибка! " + traceback.format_exc()
         return render_template("tasks.html", taskhistory=text, num_tusk=task_num, lesson_num=lesson_num, task_num=task_num,
@@ -158,7 +163,8 @@ def reqister():
             db_sess.commit()
             con = sqlite3.connect("for_users.db")
             cur = con.cursor()
-            cur.execute(f"INSERT INTO works (id, content) ({current_user.id}, '{first_db_enter}')")
+            print(f"INSERT INTO works (id, content) VALUES({user.id + 1}, '{first_db_enter}')")
+            cur.execute(f"INSERT INTO works (id, content) VALUES({user.id + 1}, \"{first_db_enter}\")")
             con.commit()
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")

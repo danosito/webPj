@@ -11,4 +11,3 @@ class Works(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    completes = sqlalchemy.Column(sqlalchemy.String, nullable=True)
