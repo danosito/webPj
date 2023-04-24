@@ -64,11 +64,13 @@ def index():
 
 
 @app.route("/lessons/<int:lesson_num>")
+@login_required
 def open_lesson(lesson_num):
     return render_template("lessons.html", lesson_num=lesson_num, lesson=lessons[lesson_num - 1], name=current_user.name, mail=current_user.email, balls=0,
                            desc=current_user.about, avatar=current_user.avatar_path, tasks=tasks[lesson_num - 1])
 
 @app.route("/tasks/<int:lesson_num>/<int:task_num>", methods=['GET', 'POST'])
+@login_required
 def open_task(lesson_num, task_num):
     if request.method == 'POST':
         with open("solution.py", "w") as f:
@@ -112,30 +114,6 @@ def login():
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
-
-
-@app.route("/session_test")
-def session_test():
-    visits_count = session.get('visits_count', 0)
-    session['visits_count'] = visits_count + 1
-    return make_response(
-        f"Вы пришли на эту страницу {visits_count + 1} раз")
-
-
-@app.route("/cookie_test")
-def cookie_test():
-    visits_count = int(request.cookies.get("visits_count", 0))
-    if visits_count:
-        res = make_response(
-            f"Вы пришли на эту страницу {visits_count + 1} раз")
-        res.set_cookie("visits_count", str(visits_count + 1),
-                       max_age=60 * 60 * 24 * 365 * 2)
-    else:
-        res = make_response(
-            "Вы пришли на эту страницу в первый раз за последние 2 года")
-        res.set_cookie("visits_count", '1',
-                       max_age=60 * 60 * 24 * 365 * 2)
-    return res
 
 
 @app.route('/register', methods=['GET', 'POST'])
