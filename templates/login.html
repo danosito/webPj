@@ -31,8 +31,15 @@
                     {% endfor %}
                 </div>
         <p class="forget">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p >{{ form.submit(type="submit", class="btn") }}</p>
+        <p >{{ form.submit(type="submit", class="btn") }}</p> <br>
         <div>{{ message }}</div>
+                <button
+              type="submit"
+              onclick="location.href='register'"
+              class="btn"
+            >
+              Зарегестрироваться
+            </button>
       </form>
       </div>
       </div>

@@ -14,10 +14,10 @@
         <nav>
           <ul class="no_margin">
             <li>
-              <a class="course_nav" href="#">Обзор курса</a>
+              <a class="course_nav" href="/">Обзор курса</a>
             </li>
             <li>
-              <a class="course_nav" href="#">О нас</a>
+              <a class="course_nav" href="/about">О нас</a>
             </li>
           </ul>
         </nav>
@@ -32,7 +32,7 @@
           {% for lesson in lessons %}
           <button
             type="submit"
-            onclick="location.href='/lessons/{{loop.index}}'"
+            onclick="location.href='/lessons/{{6 - loop.index}}'"
             class="btn_for_lesson"
           >
             {{lesson}}
@@ -46,17 +46,17 @@
               onclick="location.href='profile'"
               class="profile_name"
             >
-              Даниил Аникин
+              {{name}}
             </button>
             <div class="dropdown-content">
-              <p>Имя: Даниил Аникин</p>
-              <p>Почта: anikindaniel2007@gmail.com</p>
-              <p>Уроков пройдено:5</p>
-              <p>Учитель: Алексей Сигида</p>
+              <p>Имя: {{name}}</p>
+              <p>Эл. почта: {{mail}}</p>
+              <p>баллы: {{balls}}</p>
+              <p>о вас: {{desc}}</p>
               <p>
                 <button
                   type="submit"
-                  onclick="location.href='leave'"
+                  onclick="location.href='logout'"
                   class="leave_btn"
                 >
                   Выйти

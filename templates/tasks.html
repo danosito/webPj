@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../static/css/menu.css" />
-    <link rel="stylesheet" href="../static/css/tasks.css" />
-    <link rel="stylesheet" href="../static/css/light.css" id="theme-link" />
+    <link rel="stylesheet" href="/static/css/menu.css" />
+    <link rel="stylesheet" href="/static/css/tasks.css" />
+    <link rel="stylesheet" href="/static/css/light.css" id="theme-link" />
     <title>Задача1 | Урок1</title>
   </head>
   <body>
@@ -16,59 +16,57 @@
         <nav>
           <ul class="no_margin">
             <li>
-              <a class="course_nav" href="#">Обзор курса</a>
+              <a class="course_nav" href="/">Обзор курса</a>
             </li>
             <li>
-              <a class="course_nav" href="#">О нас</a>
+              <a class="course_nav" href="/about">О нас</a>
             </li>
           </ul>
         </nav>
       </div>
       <div class="info_and_theme">
-        <h1 class="headings">Задача1</h1>
+        <h1 class="headings">Задача {{num_task}}</h1>
         <div class="theme" id="theme"></div>
       </div>
     </div>
     <p class="task_text">
-      Напишите программу, которая выводит «Привет, Яндекс!» (без кавычек) и
-      больше ничего не делает.
+      {{task_text}}
     </p>
     <div id="under_info">
-      <div class="task_input">
+      <form method="post">
         <textarea name="comment"></textarea>
-      </div>
+        <input type="submit" value="Submit">
       <div class="task_output">
-        <form action="" method="post">
-          <button class="send_btn">Отправить решение</button>
         </form>
-        <output class="task_info"></output>
+
       </div>
+    <output class="task_info">{{taskhistory}}</output>
       <div class="for_menu">
-        <div class="dropdown">
-          <button
-            type="submit"
-            onclick="location.href='profile'"
-            class="profile_name"
-          >
-            Даниил Аникин
-          </button>
-          <div class="dropdown-content">
-            <p>Имя: Даниил Аникин</p>
-            <p>Почта: anikindaniel2007@gmail.com</p>
-            <p>Уроков пройдено:5</p>
-            <p>Учитель: Алексей Сигида</p>
-            <p>
-              <button
-                type="submit"
-                onclick="location.href='logout'"
-                class="leave_btn"
-              >
-                Выйти
-              </button>
-            </p>
+          <div class="dropdown">
+            <button
+              type="submit"
+              onclick="location.href='profile'"
+              class="profile_name"
+            >
+              {{name}}
+            </button>
+            <div class="dropdown-content">
+              <p>Имя: {{name}}</p>
+              <p>Эл. почта: {{mail}}</p>
+              <p>баллы: {{balls}}</p>
+              <p>о вас: {{desc}}</p>
+              <p>
+                <button
+                  type="submit"
+                  onclick="location.href='logout'"
+                  class="leave_btn"
+                >
+                  Выйти
+                </button>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
     </div>
     <script>
       var btn = document.getElementById("theme");
@@ -79,8 +77,8 @@
       });
 
       function ChangeTheme() {
-        let lightTheme = "../static/css/light.css";
-        let darkTheme = "../static/css/dark.css";
+        let lightTheme = "/static/css/light.css";
+        let darkTheme = "/static/css/dark.css";
 
         var currTheme = link.getAttribute("href");
         var theme = "";

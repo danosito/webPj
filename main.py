@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, abort
 from flask_wtf import FlaskForm
 from wtforms import EmailField, PasswordField, BooleanField, SubmitField
@@ -18,6 +20,9 @@ from flask import session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import sqlite3
 from flask_uploads import UploadSet, configure_uploads, IMAGES
+from PIL import Image
+from test import test
+import traceback
 
 app = Flask(__name__, static_folder="static")
 photos = UploadSet('photos', IMAGES)
@@ -26,6 +31,12 @@ configure_uploads(app, photos)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'
+lessons = ["Знакомство со средой", "Условный оператор", "Простые встроенные функции",
+               "Знакомство с циклом while", "Знакомство с циклом for"]
+tasks = [["вывести \"hello yandex\" без кавычек", "вывести сумму 2 и 2", "сложить переменные a = 10 и b = 20"], ["получить на вход два числа. вывести меньшее. не использовать min", "добавить в предыдущую программу начальный ввод, и если пользователь введет +, то вывести самое большое число, а если -, то самое маленькое"], ["получите сумму 2 и 2 с помощью sum", "найдите модуль -5 * -5 ** 2 + -6", "сделайте простейший калькулятор с помощью eval"], ["получить на вход пять чисел. вывести их сумму", "получать на вход числа, пока не придет 0. когда придет 0, вывести самое маленькое и самое большое число.", "усложните предыдущую задачу: если приходит отрицательное число, то берите его квадрат."], ["напишите функцию факториала. вам дается число, выведите его факториал", "напишите функцию, которая перебирает числа от 1до n, и находит среднее. n вводится"]]
+tests = [[["hello yandex\r\n"], ["4\r\n"], ["30\r\n"]], [[b"-3\n", b"5\n", "-3\r\n"], [b"+\n",b"-3\n", b"5\n", "5\r\n"]], [["4\r\n"], ["119\r\n"], [b"5*3\n", "15\r\n"]], [[b"1\n", b"2\n", b"3\n", b"4\n", b"5\n", "15\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "4\r\n-5\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "25\r\n1\r\n"]], [[b"5\n", "120\r\n"], [b"7\n", "4\r\n"]]]
+
 
 class LoginForm(FlaskForm):
     email = EmailField('Почта', validators=[DataRequired()])
@@ -34,21 +45,52 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Войти')
     print(email, password, remember_me)
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
+
 @app.route("/")
+@login_required
 def index():
     lessons = ["Знакомство со средой", "Условный оператор", "Простые встроенные функции",
                "Знакомство с циклом while", "Знакомство с циклом for"]
-    return render_template("main.html", lessons=lessons)
+    lessons.reverse()
+    return render_template("main.html", lessons=lessons, name=current_user.name, mail=current_user.email, balls=0,
+                           desc=current_user.about, avatar=current_user.avatar_path)
 
+
+@app.route("/lessons/<int:lesson_num>")
+def open_lesson(lesson_num):
+    return render_template("lessons.html", lesson_num=lesson_num, lesson=lessons[lesson_num - 1], name=current_user.name, mail=current_user.email, balls=0,
+                           desc=current_user.about, avatar=current_user.avatar_path, tasks=tasks[lesson_num - 1])
+
+@app.route("/tasks/<int:lesson_num>/<int:task_num>", methods=['GET', 'POST'])
+def open_task(lesson_num, task_num):
+    if request.method == 'POST':
+        with open("solution.py", "w") as f:
+            f.write(request.values['comment'])
+        try:
+            n = test(tests[lesson_num - 1][task_num - 1])
+            text = "тест пройден" if n[0] == n[1] else "тест не пройден: ввод программы - " + str(n[2]) + " правильный вывод - " + str(n[0]) + " ваш вывод: " + str(n[1])
+        except BaseException:
+            text = "ошибка! " + traceback.format_exc()
+        return render_template("tasks.html", taskhistory=text, num_tusk=task_num,
+                               task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
+                               mail=current_user.email, balls=0,
+                               desc=current_user.about, avatar=current_user.avatar_path)
+    return render_template("tasks.html", taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
+                           mail=current_user.email, balls=0,
+                           desc=current_user.about, avatar=current_user.avatar_path)
 @app.route("/profile")
+@login_required
 def profile():
-    return render_template("profile.html")
+    return render_template("profile.html", name=current_user.name, mail=current_user.email, balls=0,
+                           desc=current_user.about, avatar=current_user.avatar_path)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -65,10 +107,12 @@ def login():
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
 
 @app.route("/session_test")
 def session_test():
@@ -76,6 +120,7 @@ def session_test():
     session['visits_count'] = visits_count + 1
     return make_response(
         f"Вы пришли на эту страницу {visits_count + 1} раз")
+
 
 @app.route("/cookie_test")
 def cookie_test():
@@ -92,14 +137,6 @@ def cookie_test():
                        max_age=60 * 60 * 24 * 365 * 2)
     return res
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    form = RegisterForm()
-    if request.method == 'POST' and 'photo' in request.files:
-        print(request.files)
-        filename = photos.save(request.files['photo'])
-        return 'Файл успешно загружен: {}'.format(filename)
-    return render_template('register.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
@@ -115,14 +152,24 @@ def reqister():
                 return render_template('register.html', title='Регистрация',
                                        form=form,
                                        message="Такой пользователь уже есть")
-            filename = photos.save(request.files['photo'], name=str(int(open("lastsaved.txt").read()) + 1) + ".jpg")
-            t = str(int(open("lastsaved.txt").read()) + 1)
-            open("lastsaved.txt", "w").write(t)
+            filename = photos.save(request.files['photo'])
+            img = Image.open("static/img/" + filename)
+            img = img.resize((400, int(img.size[1] / img.size[0] * 400)) if img.size[1] > img.size[0] else
+                             (int(img.size[0] / img.size[1] * 400), 400))
+            img = img.crop(((img.size[0] - 400) // 2, 0,
+                            (img.size[0] - 400) // 2 + 400, 400) if
+                            img.size[0] > img.size[1] else
+                            (0, (img.size[1] - 400) // 2, 400,
+                            (img.size[1] - 400) // 2 + 400))
+            name = str(int(open("lastsaved.txt").read()) + 1)
+            img.save(f"static/img/{name}.jpg")
+            open("lastsaved.txt", "w").write(name)
+            os.remove("static/img/" + filename)
             user = User(
                 name=form.name.data,
                 email=form.email.data,
                 about=form.about.data,
-                avatar_path=filename
+                avatar_path=name + ".jpg"
             )
             user.set_password(form.password.data)
             db_sess.add(user)
@@ -130,6 +177,7 @@ def reqister():
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")
     return render_template('register.html', title='Регистрация', form=form)
+
 
 def main():
     db_session.global_init("for_users.db")

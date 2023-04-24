@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../static/css/menu.css" />
     <link rel="stylesheet" href="../static/css/light.css" id="theme-link" />
     <link rel="stylesheet" href="../static/css/lessons.css" />
-    <title>Урок первый | Знакомство со средой</title>
+    <title>{{lesson}}</title>
   </head>
   <body>
     <div id="menu">
@@ -15,41 +15,27 @@
         <nav>
           <ul class="no_margin">
             <li>
-              <a class="course_nav" href="#">Обзор курса</a>
+              <a class="course_nav" href="/">Обзор курса</a>
             </li>
             <li>
-              <a class="course_nav" href="#">О нас</a>
+              <a class="course_nav" href="/about">О нас</a>
             </li>
           </ul>
         </nav>
       </div>
       <div class="info_and_theme">
-        <h1 class="headings">Знакомство со средой</h1>
+        <h1 class="headings">{{lesson}}</h1>
         <div class="theme" id="theme"></div>
       </div>
       <div id="under_info">
         <div class="lesson_tasks">
           <button class="tasks_heading">Задачи</button>
-          <button class="tasks">
-            Задача1
+          {%for task in tasks%}
+          <button class="tasks" onclick="location.href='/tasks/{{lesson_num}}/{{loop.index}}'">
+            Задача {{loop.index}}
             <div class="point">Зачёт</div>
           </button>
-          <button class="tasks">
-            Задача2
-            <div class="point">Зачёт</div>
-          </button>
-          <button class="tasks">
-            Задача3
-            <div class="point">Зачёт</div>
-          </button>
-          <button class="tasks">
-            Задача4
-            <div class="point">Зачёт</div>
-          </button>
-          <button class="tasks">
-            Задача5
-            <div class="point">Зачёт</div>
-          </button>
+          {%endfor%}
         </div>
         <div class="for_menu">
           <div class="dropdown">
@@ -58,17 +44,17 @@
               onclick="location.href='profile'"
               class="profile_name"
             >
-              Даниил Аникин
+              {{name}}
             </button>
             <div class="dropdown-content">
-              <p>Имя: Даниил Аникин</p>
-              <p>Почта: anikindaniel2007@gmail.com</p>
-              <p>Уроков пройдено:5</p>
-              <p>Учитель: Алексей Сигида</p>
+              <p>Имя: {{name}}</p>
+              <p>Эл. почта: {{mail}}</p>
+              <p>баллы: {{balls}}</p>
+              <p>о вас: {{desc}}</p>
               <p>
                 <button
                   type="submit"
-                  onclick="location.href='leave'"
+                  onclick="location.href='logout'"
                   class="leave_btn"
                 >
                   Выйти

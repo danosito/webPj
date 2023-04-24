@@ -14,21 +14,22 @@
         <nav>
           <ul>
             <li>
-              <a class="course_nav" href="#">Обзор курса</a>
+              <a class="course_nav" href="/">Обзор курса</a>
             </li>
             <li>
-              <a class="course_nav" href="#">О нас</a>
+              <a class="course_nav" href="/about">О нас</a>
             </li>
           </ul>
         </nav>
       </div>
       <div id="data">
         <div class="edges"></div>
-        <img src="../static/hu tao.jpg" alt="profile's photo" class="photo" />
+        <img src="../static/img/{{avatar}}" alt="profile's photo" class="photo" />
         <div id="under">
-          <h1 class="normal_text">Аникин Даниил Владимирович</h1>
-          <h1 class="normal_text">Эл. почта: anikindaniel2007@gmail.com</h1>
-          <h1 class="normal_text">Руководитель: Сигида Алексей Валерьевич</h1>
+          <h1 class="normal_text">{{name}}</h1>
+          <h1 class="normal_text">Эл. почта: {{mail}}</h1>
+          <h1 class="normal_text">баллы: {{balls}}</h1>
+          <h1 class="normal_text">о вас: {{desc}}</h1>
         </div>
         <div class="edges"></div>
       </div>
