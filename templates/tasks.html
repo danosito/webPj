@@ -32,15 +32,14 @@
     <p class="task_text">
       {{task_text}}
     </p>
-    <div id="under_info">
-      <form method="post">
+    <div class="under_info">
+      <form method="post" class="under_info">
         <textarea name="comment"></textarea>
-        <input type="submit" value="Submit">
       <div class="task_output">
-        </form>
-
+        <input type="submit" value="Submit" class="send_btn">
+        <output class="task_info">{{taskhistory}}</output>
       </div>
-    <output class="task_info">{{taskhistory}}</output>
+        </form>
       <div class="for_menu">
           <div class="dropdown">
             <button

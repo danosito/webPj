@@ -103,7 +103,7 @@ body {
   margin-left: 52vw;
 }
 
-#under_info {
+.under_info {
   display: flex;
   flex-direction: row;
 }
