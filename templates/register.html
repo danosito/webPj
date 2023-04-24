@@ -7,8 +7,10 @@
     <title>Авторизация | Лицей Академии Яндекса</title>
   </head>
   <body>
-  <section><h2>Регистрация</h2>
-<form enctype="multipart/form-data" method="post">
+  <section>
+      <div class="row">
+          <h2>Регистрация</h2>
+          <form enctype="multipart/form-data" method="post">
     {{ form.hidden_tag() }}
     <p>
         {{ form.email.label }}<br>
@@ -57,7 +59,9 @@
     </p>
     <input type="file" name="photo">
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    {{message}}</form></section>
+{{message}}</form>
+      </div>
+    </section>
 
   <script
       type="module"
