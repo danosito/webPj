@@ -21,6 +21,7 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 from PIL import Image
 from test import test
 import traceback
+import sqlite3
 
 app = Flask(__name__, static_folder="static")
 photos = UploadSet('photos', IMAGES)
@@ -34,7 +35,7 @@ lessons = ["Знакомство со средой", "Условный опер�
                "Знакомство с циклом while", "Знакомство с циклом for"]
 tasks = [["вывести \"hello yandex\" без кавычек", "вывести сумму 2 и 2", "сложить переменные a = 10 и b = 20"], ["получить на вход два числа. вывести меньшее. не использовать min", "добавить в предыдущую программу начальный ввод, и если пользователь введет +, то вывести самое большое число, а если -, то самое маленькое"], ["получите сумму 2 и 2 с помощью sum", "найдите модуль -5 * -5 ** 2 + -6", "сделайте простейший калькулятор с помощью eval"], ["получить на вход пять чисел. вывести их сумму", "получать на вход числа, пока не придет 0. когда придет 0, вывести самое маленькое и самое большое число.", "усложните предыдущую задачу: если приходит отрицательное число, то берите его квадрат."], ["напишите функцию факториала. вам дается число, выведите его факториал", "напишите функцию, которая перебирает числа от 1до n, и находит среднее. n вводится"]]
 tests = [[["hello yandex\r\n"], ["4\r\n"], ["30\r\n"]], [[b"-3\n", b"5\n", "-3\r\n"], [b"+\n",b"-3\n", b"5\n", "5\r\n"]], [["4\r\n"], ["119\r\n"], [b"5*3\n", "15\r\n"]], [[b"1\n", b"2\n", b"3\n", b"4\n", b"5\n", "15\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "4\r\n-5\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "25\r\n1\r\n"]], [[b"5\n", "120\r\n"], [b"7\n", "4\r\n"]]]
-first_db_enter = [["0", "0", "0"], ["0", "0"], [], [], []]
+first_db_enter = [["0", "0", "0"], ["0", "0"], ["0", "0", "0"], ["0", "0", "0"], ["0", "0"]]
 
 
 class LoginForm(FlaskForm):
@@ -83,7 +84,7 @@ def open_task(lesson_num, task_num):
                                task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
                                mail=current_user.email, balls=0,
                                desc=current_user.about, avatar=current_user.avatar_path)
-    return render_template("tasks.html", lesson_num=lesson_num, taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
+    return render_template("tasks.html", task_num=task_num, lesson_num=lesson_num, taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
                            mail=current_user.email, balls=0,
                            desc=current_user.about, avatar=current_user.avatar_path)
 @app.route("/profile")
@@ -155,6 +156,9 @@ def reqister():
             user.set_password(form.password.data)
             db_sess.add(user)
             db_sess.commit()
+            con = sqlite3.connect("for_users.db")
+            cur = con.cursor()
+            cur.execute(f"INSERT INTO works (id, content), {}")
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")
     return render_template('register.html', title='Регистрация', form=form)
