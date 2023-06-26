@@ -33,9 +33,13 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 lessons = ["Знакомство со средой", "Условный оператор", "Простые встроенные функции",
                "Знакомство с циклом while", "Знакомство с циклом for"]
-tasks = [["вывести \"hello yandex\" без кавычек", "вывести сумму 2 и 2", "сложить переменные a = 10 и b = 20"], ["получить на вход два числа. вывести меньшее. не использовать min", "добавить в предыдущую программу начальный ввод, и если пользователь введет +, то вывести самое большое число, а если -, то самое маленькое"], ["получите сумму 2 и 2 с помощью sum", "найдите модуль -5 * -5 ** 2 + -6", "сделайте простейший калькулятор с помощью eval"], ["получить на вход пять чисел. вывести их сумму", "получать на вход числа, пока не придет 0. когда придет 0, вывести самое маленькое и самое большое число.", "усложните предыдущую задачу: если приходит отрицательное число, то берите его квадрат."], ["напишите функцию факториала. вам дается число, выведите его факториал", "напишите функцию, которая перебирает числа от 1до n, и находит среднее. n вводится"]]
-tests = [[["hello yandex\r\n"], ["4\r\n"], ["30\r\n"]], [[b"-3\n", b"5\n", "-3\r\n"], [b"+\n",b"-3\n", b"5\n", "5\r\n"]], [["4\r\n"], ["119\r\n"], [b"5*3\n", "15\r\n"]], [[b"1\n", b"2\n", b"3\n", b"4\n", b"5\n", "15\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "4\r\n-5\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "25\r\n1\r\n"]], [[b"5\n", "120\r\n"], [b"7\n", "4\r\n"]]]
-first_db_enter = [["0", "0", "0"], ["0", "0"], ["0", "0", "0"], ["0", "0", "0"], ["0", "0"]]
+tasks = [["вывести \"hello yandex\" без кавычек", "вывести сумму 2 и 2", "сложить переменные a = 10 и b = 20"], ["получить на вход два числа. вывести меньшее. не использовать min", "добавить в предыдущую программу начальный ввод, и если пользователь введет +, то вывести самое большое число, а если -, то самое маленькое", "сравнить две введенные строки по длинам, вывести большую"], ["получите сумму 2 и 2 с помощью sum", "найдите модуль -5 * -5 ** 2 + -6", "сделайте простейший калькулятор с помощью eval"], ["получить на вход пять чисел. вывести их сумму", "получать на вход числа, пока не придет 0. когда придет 0, вывести самое маленькое и самое большое число.", "усложните предыдущую задачу: если приходит отрицательное число, то берите его квадрат."], ["напишите функцию факториала. вам дается число, выведите его факториал", "напишите функцию, которая перебирает числа от 1до n, и находит среднее. n вводится"]]
+tests = [[["hello yandex\r\n"], ["4\r\n"], ["30\r\n"]], [[b"-3\n", b"5\n", "-3\r\n"], [b"+\n",b"-3\n", b"5\n", "5\r\n"], [b"jhadhsdahsj\n", b"abc\n", "jhadhsdahsj\r\n"]], [["4\r\n"], ["119\r\n"], [b"5*3\n", "15\r\n"]], [[b"1\n", b"2\n", b"3\n", b"4\n", b"5\n", "15\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "4\r\n-5\r\n"], [b"-1\n", b"2\n", b"-3\n", b"4\n", b"-5\n", b"0\n", "25\r\n1\r\n"]], [[b"5\n", "120\r\n"], [b"7\n", "4\r\n"]]]
+
+
+def find_balls():
+    ballsob = sqlite3.connect("for_users.db").cursor().execute(f"""SELECT results from works where id={str(current_user.id)}""").fetchall()[0][0]
+    return sum(map(int, list(str(ballsob)))) - 14
 
 
 class LoginForm(FlaskForm):
@@ -59,43 +63,61 @@ def index():
     lessons = ["Знакомство со средой", "Условный оператор", "Простые встроенные функции",
                "Знакомство с циклом while", "Знакомство с циклом for"]
     lessons.reverse()
-    return render_template("main.html", lessons=lessons, name=current_user.name, mail=current_user.email, balls=0,
+    return render_template("main.html", lessons=lessons, name=current_user.name, mail=current_user.email, balls=find_balls(),
                            desc=current_user.about, avatar=current_user.avatar_path)
 
 
 @app.route("/lessons/<int:lesson_num>")
 @login_required
 def open_lesson(lesson_num):
-    return render_template("lessons.html", lesson_num=lesson_num, lesson=lessons[lesson_num - 1], name=current_user.name, mail=current_user.email, balls=0,
+    return render_template("lessons.html", lesson_num=lesson_num, list_of_balls=str(sqlite3.connect("for_users.db").cursor().execute(f"SELECT results from works where id={current_user.id}").fetchall()[0][0])[(lesson_num - 1) * 3:(lesson_num - 1) * 3 + 3].replace("1", "незачет№").replace("2", "зачет№").split("№")[:-1], lesson=lessons[lesson_num - 1], name=current_user.name, mail=current_user.email, balls=find_balls(),
                            desc=current_user.about, avatar=current_user.avatar_path, tasks=tasks[lesson_num - 1])
 
 @app.route("/tasks/<int:lesson_num>/<int:task_num>", methods=['GET', 'POST'])
 @login_required
 def open_task(lesson_num, task_num):
+    con = sqlite3.connect("for_users.db")
+    cur = con.cursor()
     if request.method == 'POST':
         with open("solution.py", "w") as f:
             f.write(request.values['comment'])
         try:
             n = test(tests[lesson_num - 1][task_num - 1])
             text = "тест пройден" if n[0] == n[1] else "тест не пройден: ввод программы - " + str(n[2]) + " правильный вывод - " + str(n[0]) + " ваш вывод: " + str(n[1])
-            con = sqlite3.connect("for_users.db")
-            cur = con.cursor()
-            n = cur.execute(f"SELECT content from works where id={current_user.id}").fetchall()[0][0]
-            n[lesson_num - 1][task_num - 1] = request.values['comment'] + "1" if n[0] == n[1] else "0"
+
+            p, x = cur.execute(f"SELECT content, results from works where id={current_user.id}").fetchall()[0]
+            x = list(str(x))
+            print(x, (lesson_num - 1) * 3 + task_num - 1)
+            x[(lesson_num - 1) * 3 + task_num - 1] = "2" if n[0] == n[1] else "1"
+            print(x)
+            p = p.split("*")
+            for i in range(len(p)):
+                p[i] = p[i].split("~")
+
+            p[lesson_num - 1][task_num - 1] = request.values['comment'].replace("\"", "'")
+            print(p)
+            for i in range(len(p)):
+                p[i] = "~".join(p[i])
+            print(p)
+            p = "*".join(p)
+            print(p, x)
+            print(f"""UPDATE works SET content = \"{p}\", SET results = \"{x}\" WHERE id = {current_user.id}""")
+            cur.execute(f"""UPDATE works SET content = \"{p}\", results = \"{''.join(x)}\" WHERE id = {current_user.id}""")
+            con.commit()
 
         except BaseException:
             text = "ошибка! " + traceback.format_exc()
-        return render_template("tasks.html", taskhistory=text, num_tusk=task_num, lesson_num=lesson_num, task_num=task_num,
+        return render_template("tasks.html", last_attempt_text=request.values['comment'], taskhistory=text, num_tusk=task_num, lesson_num=lesson_num, task_num=task_num,
                                task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
-                               mail=current_user.email, balls=0,
+                               mail=current_user.email, balls=find_balls(),
                                desc=current_user.about, avatar=current_user.avatar_path)
-    return render_template("tasks.html", task_num=task_num, lesson_num=lesson_num, taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
-                           mail=current_user.email, balls=0,
+    return render_template("tasks.html", last_attempt_text=cur.execute(f"SELECT content from works where id={current_user.id}").fetchall()[0][0].split("*")[lesson_num - 1].split("~")[task_num - 1],task_num=task_num, lesson_num=lesson_num, taskhistory="", num_tusk=task_num, task_text=tasks[lesson_num - 1][task_num - 1], name=current_user.name,
+                           mail=current_user.email, balls=find_balls(),
                            desc=current_user.about, avatar=current_user.avatar_path)
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html", name=current_user.name, mail=current_user.email, balls=0,
+    return render_template("profile.html", name=current_user.name, mail=current_user.email, balls=find_balls(),
                            desc=current_user.about, avatar=current_user.avatar_path)
 
 
@@ -163,8 +185,7 @@ def reqister():
             db_sess.commit()
             con = sqlite3.connect("for_users.db")
             cur = con.cursor()
-            print(f"INSERT INTO works (id, content) VALUES({user.id + 1}, '{first_db_enter}')")
-            cur.execute(f"INSERT INTO works (id, content) VALUES({user.id + 1}, \"{first_db_enter}\")")
+            cur.execute(f"INSERT INTO works (id, content, results) VALUES({user.id}, \"{'~' * 2 + '*' + '~' * 2 + '*' +'~' * 2 + '*' + '~' * 2 + '*' + '~' * 1}\", \"{'1' * 14}\")")
             con.commit()
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form, message="загрузите аватар")

@@ -33,7 +33,7 @@
           {%for task in tasks%}
           <button class="tasks" onclick="location.href='/tasks/{{lesson_num}}/{{loop.index}}'">
             Задача {{loop.index}}
-            <div class="point">Зачёт</div>
+            <div class="point">{{list_of_balls[loop.index - 1]}}</div>
           </button>
           {%endfor%}
         </div>
@@ -65,33 +65,7 @@
         </div>
       </div>
     </div>
-    <script>
-      var btn = document.getElementById("theme");
-      var link = document.getElementById("theme-link");
-
-      btn.addEventListener("click", function () {
-        ChangeTheme();
-      });
-
-      function ChangeTheme() {
-        let lightTheme = "../static/css/light.css";
-        let darkTheme = "../static/css/dark.css";
-
-        var currTheme = link.getAttribute("href");
-        var theme = "";
-
-        if (currTheme == lightTheme) {
-          currTheme = darkTheme;
-          theme = "dark";
-        } else {
-          currTheme = lightTheme;
-          theme = "light";
-        }
-
-        link.setAttribute("href", currTheme);
-
-        Save(theme);
-      }
+    <script src="../static/js/theme.js">
     </script>
   </body>
 </html>

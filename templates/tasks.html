@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="/static/css/menu.css" />
-    <link rel="stylesheet" href="/static/css/tasks.css" />
+
     <link rel="stylesheet" href="/static/css/light.css" id="theme-link" />
+    <link rel="stylesheet" href="/static/css/tasks.css" />
     <title>Задача {{task_num}} | Урок {{lesson_num}}</title>
   </head>
   <body>
@@ -34,7 +35,7 @@
     </p>
     <div class="under_info">
       <form method="post" class="under_info">
-        <textarea name="comment">темт</textarea>
+        <textarea name="comment">{{last_attempt_text}}</textarea>
       <div class="task_output">
         <input type="submit" value="Отправить решение" class="send_btn">
         <output class="task_info">{{taskhistory}}</output>
@@ -67,33 +68,7 @@
           </div>
         </div>
     </div>
-    <script>
-      var btn = document.getElementById("theme");
-      var link = document.getElementById("theme-link");
-
-      btn.addEventListener("click", function () {
-        ChangeTheme();
-      });
-
-      function ChangeTheme() {
-        let lightTheme = "/static/css/light.css";
-        let darkTheme = "/static/css/dark.css";
-
-        var currTheme = link.getAttribute("href");
-        var theme = "";
-
-        if (currTheme == lightTheme) {
-          currTheme = darkTheme;
-          theme = "dark";
-        } else {
-          currTheme = lightTheme;
-          theme = "light";
-        }
-
-        link.setAttribute("href", currTheme);
-
-        Save(theme);
-      }
+    <script src="/static/js/theme.js">
     </script>
   </body>
 </html>

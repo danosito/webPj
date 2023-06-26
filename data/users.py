@@ -20,6 +20,7 @@ class User(SqlAlchemyBase, UserMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
     avatar_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    currtheme = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def set_password(self, password):
         self.hashed_password = werkzeug.security.generate_password_hash(password)
